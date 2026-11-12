@@ -13,60 +13,78 @@ This repository contains the source code and documentation for the official **Au
 ## Features
 - Responsive design for desktop, tablet, and mobile devices.
 - Modern and intuitive user interface.
-- Service and solution showcase pages.
-- About Us and Company Profile section.
-- Contact Us form with inquiry submission.
-- Search Engine Optimization (SEO) best practices.
-- Fast loading and optimized performance.
-- Secure and scalable architecture.
+- Bold geometric Sora headings and Space Grotesk body text with responsive font sizes.
+- Blue-and-black gradients with decorative blurred background shapes and matching service illustrations.
+- One-page sections for the freelance approach, services, and project process.
+- FAQ accordion for common project enquiries.
+- Persistent light/dark theme toggle.
+- Alternating left/right scroll entrances, opposing hero entrances, and preview float effects that respect reduced-motion preferences.
+- Short animated logo intro that fades away automatically and is skipped for reduced motion or keyboard navigation.
+- Service links preselect the matching option in the contact form.
+- Contact form validates required fields and prepares a reviewable email with email-app and copy-to-webmail options; it does not submit to a server.
+- Basic SEO metadata and accessible navigation.
 
 ## Technology Stack
 
 ### Frontend
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap / Tailwind CSS (as applicable)
-- React.js / Next.js (if applicable)
+- HTML5, CSS3, and vanilla JavaScript
 
 ### Backend
-- Node.js
-- Express.js
-- .NET API (if applicable)
-
-### Database
-- SQL Server / MySQL / PostgreSQL (as applicable)
+- None currently. The contact form uses a `mailto:` link and does not store submissions.
 
 ### Deployment
-- GitHub
-- GitHub Actions
-- Azure App Service / IIS / Hosting Provider
+- Can be hosted as a static website; no build step is currently required.
+
+## Website checks
+
+No framework, build step, or dependency installation is needed to serve the website.
+Open `index.html` in your IDE's static preview, or publish the repository root to a static host.
+Keep `index.html` at the root so existing hosting setups continue to work.
+
+Run `npm run check` for JavaScript syntax checks and `npm test` for browser checks.
+These commands require Node.js 22+; browser checks also require Microsoft Edge.
+Set `BROWSER_PATH` to an Edge or Chrome executable if it is installed elsewhere.
+The checks use an isolated headless browser and local server; no enquiries are sent.
+They cover enquiry validation, email encoding, clipboard fallbacks, stale preview removal,
+mobile navigation and focus, hover contrast, theme persistence and unavailable storage,
+responsive layouts, image decoding, keyboard-operated FAQs, intro/reduced-motion behavior,
+navigation without JavaScript, and relative assets under a deployment subpath.
+Google Fonts are blocked during checks to exercise the local font fallbacks.
+These local Edge/Chromium checks do not verify a live host, other browser engines,
+or email delivery; sending an enquiry still requires the visitor's email service.
 
 ## Project Structure
 
 ```text
-auro-infotech-website/
-│
-├── public/
-│   ├── images/
-│   ├── icons/
-│   └── assets/
-│
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── layouts/
-│   ├── services/
+.
+├── index.html
+├── assets/
 │   ├── styles/
-│   └── utils/
-│
-├── docs/
-│
+│   │   └── site.css
+│   ├── scripts/
+│   │   └── site.js
+│   └── images/
+│       ├── brand/
+│       │   └── auro-logo.svg
+│       └── services/
+│           ├── website-development.svg
+│           ├── ecommerce-development.svg
+│           ├── php-backend-development.svg
+│           ├── website-maintenance.svg
+│           ├── search-engine-optimization.svg
+│           └── domain-hosting.svg
 ├── tests/
-│
-├── .github/
-│   └── workflows/
-│
+│   └── browser/
+│       └── project-enquiry.test.cjs
 ├── package.json
-├── README.md
-└── LICENSE
+└── Readme.md
+```
+
+## Editing guide
+
+- `index.html`: page content, navigation, service descriptions, and enquiry markup.
+- `assets/styles/site.css`: theme tokens, layouts, typography, and animations.
+- `assets/scripts/site.js`: navigation, theme switching, scroll animations, and enquiry behavior.
+- `assets/images/brand`: shared brand assets, including the favicon and watermark source.
+- `assets/images/services`: descriptive, lowercase kebab-case filenames for each service illustration.
+- `tests/browser`: isolated browser regression checks; never sends an enquiry.
