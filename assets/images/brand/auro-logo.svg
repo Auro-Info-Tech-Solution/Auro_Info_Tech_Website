@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" role="img" aria-labelledby="title">
+  <title id="title">AURO INFO TECH placeholder brand mark</title>
+  <defs>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0879f9"/>
+      <stop offset=".58" stop-color="#16c6ed"/>
+      <stop offset="1" stop-color="#0869df"/>
+    </linearGradient>
+  </defs>
+  <circle cx="250" cy="250" r="231" fill="#07172f"/>
+  <circle cx="250" cy="250" r="217" fill="none" stroke="url(#ring)" stroke-width="8"/>
+  <path d="M132 232 244 94q7-9 14 0l43 55-27 7-24-31-70 90 84-52q61-38 120-22-68-11-132 29l-70 43h-50Zm163-2 37 54h-35l-30-44 28-10Zm-63 10 26 44h-42l-24-40 40-4Z" fill="#f8fbff"/>
+  <path d="M154 240q86-73 176-81 40-4 72 6-88-8-156 30l-75 45Z" fill="url(#ring)"/>
+  <text x="250" y="316" text-anchor="middle" fill="#f8fbff" font-family="Arial, sans-serif" font-size="55" font-weight="800" letter-spacing="-3">AURO</text>
+  <text x="250" y="354" text-anchor="middle" fill="#16a9ed" font-family="Arial, sans-serif" font-size="31" font-weight="700" letter-spacing="2">INFO TECH</text>
+  <path d="M58 338h77m232 0h75" stroke="#138fec" stroke-width="4"/>
+  <text x="250" y="390" text-anchor="middle" fill="#dce6f3" font-family="Arial, sans-serif" font-size="15" letter-spacing="6">Innovate  ·  Build  ·  Grow</text>
+</svg>

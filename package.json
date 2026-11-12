@@ -1,0 +1,13 @@
+{
+  "name": "auro-info-tech-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Framework-free freelance website built with HTML, CSS, and JavaScript.",
+  "scripts": {
+    "check": "node --check assets/scripts/site.js",
+    "test": "node --test tests/browser/project-enquiry.test.cjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
