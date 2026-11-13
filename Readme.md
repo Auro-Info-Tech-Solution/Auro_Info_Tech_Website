@@ -13,6 +13,16 @@ This repository contains the source code and documentation for the official **Au
 ## Features
 - Responsive design for desktop, tablet, and mobile devices.
 - Modern and intuitive user interface.
+- Bold geometric Sora headings and Space Grotesk body text with responsive font sizes.
+- Blue-and-black gradients with decorative blurred background shapes and matching service illustrations.
+- One-page sections for the freelance approach, services, and project process.
+- FAQ accordion for common project enquiries.
+- Persistent light/dark theme toggle with pale blue/white light mode and blue/black dark mode.
+- Alternating left/right scroll entrances, opposing hero entrances, and preview float effects that respect reduced-motion preferences.
+- Short animated logo intro that fades away automatically and is skipped for reduced motion or keyboard navigation.
+- Service links preselect the matching option in the contact form.
+- Contact form validates required fields and prepares a reviewable email with email-app and copy-to-webmail options; it does not submit to a server.
+- Basic SEO metadata and accessible navigation.
 - Service and solution showcase pages.
 - About Us and Company Profile section.
 - Contact Us form with inquiry submission.
@@ -58,6 +68,19 @@ auro-infotech-website/
 │   ├── layouts/
 │   ├── services/
 │   ├── styles/
+│   │   └── site.css
+│   ├── scripts/
+│   │   └── site.js
+│   └── images/
+│       ├── brand/
+│       │   └── auro-logo.jpg
+│       └── services/
+│           ├── website-development.svg
+│           ├── ecommerce-development.svg
+│           ├── php-backend-development.svg
+│           ├── website-maintenance.svg
+│           ├── search-engine-optimization.svg
+│           └── domain-hosting.svg
 │   └── utils/
 │
 ├── docs/
