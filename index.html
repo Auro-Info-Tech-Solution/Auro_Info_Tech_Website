@@ -1,219 +1,387 @@
-<!doctype html>
-<html lang="en" data-theme="light">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#10151f">
-  <meta name="description" content="AURO INFO TECH creates thoughtful websites, online stores, and digital solutions for growing businesses.">
-  <title>AURO INFO TECH — Freelance web development</title>
-  <link rel="icon" type="image/svg+xml" href="assets/images/brand/auro-logo.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles/site.css">
-  <script src="assets/scripts/site.js" defer></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AURO INFO TECH Solutions | Web Development, E-Commerce & Hosting</title>
+<meta name="description" content="AURO INFO TECH Solutions delivers professional website development, e-commerce stores, domain & hosting, PHP backend development and website maintenance services." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="site-intro" aria-hidden="true">
-    <div class="intro-brand">
-      <div class="intro-logo-wrap"><img src="assets/images/brand/auro-logo.svg" alt="" width="160" height="160"></div>
-      <p>Innovate. Build. Grow.</p>
-      <span class="intro-line"></span>
+
+<!-- ================= TOP BAR ================= -->
+<div class="topbar">
+  <div class="container topbar__inner">
+    <div class="topbar__meta">
+      <a href="tel:+919000000000">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +91 90000 00000
+      </a>
+      <a href="mailto:info@auroinfotech.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        info@auroinfotech.com
+      </a>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Mon - Sat: 9:30 AM - 7:00 PM
+      </span>
+    </div>
+    <div class="topbar__social">
+      <a href="#" aria-label="Facebook"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      <a href="#" aria-label="Instagram"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+      <a href="#" aria-label="LinkedIn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.4 8.65 21 11 21 14.1V21h-4v-6.1c0-1.45-.03-3.3-2-3.3-2 0-2.3 1.57-2.3 3.2V21H9z"/></svg></a>
+      <a href="#" aria-label="WhatsApp"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.5-5.9c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8 1-.3.2-.5 0a6.5 6.5 0 0 1-1.9-1.2 7.3 7.3 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5.2-.4v-.4l-.7-1.7c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3A2.9 2.9 0 0 0 6.9 10a5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c.6.3 1.1.4 1.5.6a3.5 3.5 0 0 0 1.6.1 2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.4-.3z"/></svg></a>
     </div>
   </div>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header" id="top">
-    <nav class="nav container" aria-label="Main navigation">
-      <a class="brand" href="#top" aria-label="AURO INFO TECH home">
-        <img class="brand-logo" src="assets/images/brand/auro-logo.svg" alt="AURO INFO TECH" width="64" height="64">
-      </a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">
-        <span></span><span></span>
-      </button>
-      <div class="nav-links" id="nav-links">
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#process">How I work</a>
-        <a href="#faq">FAQs</a>
-        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
-          <span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span>
-        </button>
-        <a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
-      </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo__mark">A</span>
+      <span class="logo__text">
+        <span class="logo__name">AURO</span>
+        <span class="logo__sub">Info Tech</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="services.html#pricing">Pricing</a>
+      <a href="contact.html">Contact</a>
     </nav>
-  </header>
 
-  <main id="main">
-    <section class="hero">
-      <div class="container hero-layout">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="status-dot"></span> Independent freelance web development</p>
-          <h1>Good work.<br><span>Good people.</span><br>Better web.</h1>
-          <p class="hero-intro">I help businesses build a clearer, more useful presence online — with thoughtful websites and dependable development, from first idea to launch.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#contact">Tell me about your project <span aria-hidden="true">↗</span></a>
-            <a class="text-link" href="#services">Explore services <span aria-hidden="true">↓</span></a>
-          </div>
-          <p class="hero-note">Direct communication. Practical solutions. No unnecessary fuss.</p>
-        </div>
+    <div class="nav__actions">
+      <a href="contact.html" class="btn btn--primary">Get a Free Quote</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
 
-        <div class="hero-visual" role="img" aria-label="A preview of a considered, responsive website">
-          <div class="visual-caption"><span>THE RIGHT START</span></div>
-          <div class="preview-window">
-            <div class="preview-bar"><span class="preview-dot"></span><span class="preview-dot"></span><span class="preview-dot"></span><span class="preview-address">your-next-idea.com</span></div>
-            <div class="preview-page">
-              <div class="preview-nav"><b>YOUR BRAND</b><span>About</span><span>Services</span><i>Let’s talk ↗</i></div>
-              <div class="preview-copy"><span>MADE FOR WHAT’S NEXT</span><strong>A website that<br>feels like <em>you.</em></strong><p>Clear message. Thoughtful details.<br>A better experience on every screen.</p><i>Explore the idea&nbsp; ↗</i></div>
-              <div class="preview-shape shape-one"></div><div class="preview-shape shape-two"></div>
-              <div class="preview-bottom"><span>DESIGNED WITH PURPOSE</span><span>BUILT TO LAST</span></div>
-            </div>
-          </div>
-          <div class="visual-stamp"><span>WEB</span><span>THAT WORKS<br>FOR YOU</span></div>
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <span class="eyebrow eyebrow--light">Web Design &amp; Development Studio</span>
+      <h1>We Build <span class="gradient-text">Powerful Websites</span> That Grow Your Business</h1>
+      <p class="lead">
+        From stunning business websites to high-converting e-commerce stores, reliable domain
+        &amp; hosting, and robust PHP backends — AURO INFO TECH Solutions is your one-stop
+        digital partner.
+      </p>
+      <div class="hero__cta">
+        <a href="contact.html" class="btn btn--primary">Start Your Project</a>
+        <a href="services.html" class="btn btn--light">Explore Services</a>
+      </div>
+      <div class="hero__ticks">
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Mobile-Responsive Design</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> SEO-Friendly Build</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> 24/7 Support</span>
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <div class="hero__card">
+        <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=modern%20web%20development%20workstation%2C%20laptop%20showing%20colorful%20analytics%20dashboard%20and%20code%2C%20dark%20blue%20ambient%20lighting%2C%20professional%20photography&image_size=landscape_4_3" alt="Website development workspace" loading="lazy" />
+      </div>
+      <div class="hero__badge hero__badge--tl">
+        <div>
+          <strong>250+</strong>
+          <span>Projects Delivered</span>
         </div>
       </div>
-      <div class="hero-footer container"><span>PLAN WITH CLARITY</span><i></i><span>BUILD WITH CARE</span><i></i><span>GROW AT YOUR PACE</span></div>
-    </section>
-
-    <section class="about-section section-pad" id="about">
-      <div class="container about-layout">
-        <div class="section-kicker"><span>ABOUT</span><i></i> A personal approach</div>
-        <div class="about-copy">
-          <h2>One point of contact.<br><span>Work shaped around you.</span></h2>
-          <div class="about-text">
-            <p>AURO INFO TECH is an independent freelance practice for businesses that need a thoughtful, capable digital partner — not a one-size-fits-all solution.</p>
-            <p>I’ll get clear on what you need, choose a sensible way forward, and build something made for your goals. You’ll know who you’re working with and what comes next.</p>
-          </div>
+      <div class="hero__badge hero__badge--br">
+        <div>
+          <strong>99.9%</strong>
+          <span>Uptime Hosting</span>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="services-section section-pad" id="services">
-      <div class="container">
-        <div class="section-heading">
-          <div><div class="section-kicker"><span>SERVICES</span><i></i> Ways I can help</div><h2>The right tools<br><span>for the job.</span></h2></div>
-          <p>Choose the support you need now. We can keep the scope focused or plan for what comes next.</p>
+<!-- ================= TRUST STRIP ================= -->
+<div class="strip">
+  <div class="strip__track">
+    <span>Website Development</span>
+    <span>E-Commerce Solutions</span>
+    <span>Domain &amp; Hosting</span>
+    <span>PHP Backend Development</span>
+    <span>Website Maintenance</span>
+    <span>SEO Optimisation</span>
+    <span>Website Development</span>
+    <span>E-Commerce Solutions</span>
+    <span>Domain &amp; Hosting</span>
+    <span>PHP Backend Development</span>
+    <span>Website Maintenance</span>
+    <span>SEO Optimisation</span>
+  </div>
+</div>
+
+<!-- ================= STATS ================= -->
+<section class="section stats">
+  <div class="container">
+    <div class="stats__grid">
+      <div class="stat reveal"><div class="stat__num"><span data-count="250" data-suffix="+">0</span></div><p>Projects Completed</p></div>
+      <div class="stat reveal"><div class="stat__num"><span data-count="180" data-suffix="+">0</span></div><p>Happy Clients</p></div>
+      <div class="stat reveal"><div class="stat__num"><span data-count="12" data-suffix="+">0</span></div><p>Years of Experience</p></div>
+      <div class="stat reveal"><div class="stat__num"><span data-count="24" data-suffix="/7">0</span></div><p>Support Available</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">What We Do</span>
+      <h2>Complete Digital Services Under One Roof</h2>
+      <p>Everything you need to launch, run and grow your online presence — designed and engineered by experts.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- 1 -->
+      <article class="service-card reveal">
+        <div class="service-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         </div>
-        <div class="service-grid">
-          <article class="service-card">
-            <img class="service-image" src="assets/images/services/website-development.svg" alt="" width="240" height="140" loading="lazy" decoding="async">
-            <h3>Website Development</h3><p>Responsive, easy-to-use websites that explain what you do and make the next step clear.</p><a href="#contact" data-service="Website Development" aria-label="Ask about Website Development">Discuss this service <span aria-hidden="true">↗</span></a>
-          </article>
-          <article class="service-card">
-            <img class="service-image" src="assets/images/services/ecommerce-development.svg" alt="" width="240" height="140" loading="lazy" decoding="async">
-            <h3>E-commerce Development</h3><p>Online stores designed to make browsing, choosing, and buying feel straightforward.</p><a href="#contact" data-service="E-commerce Development" aria-label="Ask about E-commerce Development">Discuss this service <span aria-hidden="true">↗</span></a>
-          </article>
-          <article class="service-card">
-            <img class="service-image" src="assets/images/services/php-backend-development.svg" alt="" width="240" height="140" loading="lazy" decoding="async">
-            <h3>PHP Backend Development</h3><p>Custom backend features that connect systems and support your everyday workflow.</p><a href="#contact" data-service="PHP Backend Development" aria-label="Ask about PHP Backend Development">Discuss this service <span aria-hidden="true">↗</span></a>
-          </article>
-          <article class="service-card">
-            <img class="service-image" src="assets/images/services/website-maintenance.svg" alt="" width="240" height="140" loading="lazy" decoding="async">
-            <h3>Website Maintenance</h3><p>Updates and ongoing support to help keep your website useful, current, and in good shape.</p><a href="#contact" data-service="Website Maintenance" aria-label="Ask about Website Maintenance">Discuss this service <span aria-hidden="true">↗</span></a>
-          </article>
-          <article class="service-card">
-            <img class="service-image" src="assets/images/services/search-engine-optimization.svg" alt="" width="240" height="140" loading="lazy" decoding="async">
-            <h3>Search Engine Optimization</h3><p>Practical on-page foundations to make your content easier for people and search engines to understand.</p><a href="#contact" data-service="Search Engine Optimization" aria-label="Ask about Search Engine Optimization">Discuss this service <span aria-hidden="true">↗</span></a>
-          </article>
-          <article class="service-card">
-            <img class="service-image" src="assets/images/services/domain-hosting.svg" alt="" width="240" height="140" loading="lazy" decoding="async">
-            <h3>Domain &amp; Hosting</h3><p>Help choosing and connecting the domain and hosting setup your website needs.</p><a href="#contact" data-service="Domain and Hosting Assistance" aria-label="Ask about Domain and Hosting Assistance">Discuss this service <span aria-hidden="true">↗</span></a>
-          </article>
+        <h3>Website Development</h3>
+        <p>Custom, responsive and fast-loading business websites designed to convert visitors into customers.</p>
+        <a href="services.html#web" class="service-card__link">Learn More →</a>
+      </article>
+
+      <!-- 2 -->
+      <article class="service-card reveal">
+        <div class="service-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+        </div>
+        <h3>E-Commerce Development</h3>
+        <p>Feature-rich online stores with secure payments, inventory management and a smooth checkout experience.</p>
+        <a href="services.html#ecommerce" class="service-card__link">Learn More →</a>
+      </article>
+
+      <!-- 3 -->
+      <article class="service-card reveal">
+        <div class="service-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
+        </div>
+        <h3>Domain &amp; Hosting</h3>
+        <p>Reliable domain registration and lightning-fast hosting with 99.9% uptime, SSL and daily backups.</p>
+        <a href="services.html#hosting" class="service-card__link">Learn More →</a>
+      </article>
+
+      <!-- 4 -->
+      <article class="service-card reveal">
+        <div class="service-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg>
+        </div>
+        <h3>PHP Backend Development</h3>
+        <p>Secure, scalable server-side logic, APIs and databases built with clean, well-structured PHP.</p>
+        <a href="services.html#php" class="service-card__link">Learn More →</a>
+      </article>
+
+      <!-- 5 -->
+      <article class="service-card reveal">
+        <div class="service-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3>Website Maintenance</h3>
+        <p>Ongoing updates, security patches, performance tuning and content changes to keep you running smoothly.</p>
+        <a href="services.html#maintenance" class="service-card__link">Learn More →</a>
+      </article>
+
+      <!-- 6 -->
+      <article class="service-card reveal">
+        <div class="service-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+        <h3>SEO &amp; Performance</h3>
+        <p>On-page SEO, speed optimisation and analytics so your website ranks higher and loads faster.</p>
+        <a href="services.html#seo" class="service-card__link">Learn More →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY / SPLIT ================= -->
+<section class="section" style="background:#fff;">
+  <div class="container split">
+    <div class="split__media reveal">
+      <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=professional%20web%20development%20team%20collaborating%20in%20a%20modern%20bright%20office%2C%20multiple%20monitors%20with%20code%2C%20business%20meeting&image_size=landscape_4_3" alt="AURO Info Tech team at work" loading="lazy" />
+      <div class="float-card">
+        <div class="float-card__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <b>On-Time Delivery</b>
+          <small>Deadlines we always keep</small>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section class="process-section section-pad" id="process">
-      <div class="container process-layout">
-        <div class="process-intro">
-          <div class="section-kicker section-kicker-light"><span>PROCESS</span><i></i> A simple way forward</div>
-          <h2>Good projects<br>start with <em>clarity.</em></h2>
-          <p>No mystery process or unnecessary meetings. Just clear steps, thoughtful work, and regular communication.</p>
-          <a class="button button-light" href="#contact">Start a conversation <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="process-steps">
-          <article><div><h3>Talk it through</h3><p>Share what you’re trying to do, who it’s for, and what success would look like.</p></div></article>
-          <article><div><h3>Agree on a plan</h3><p>I’ll define a sensible scope, priorities, and next steps before work begins.</p></div></article>
-          <article><div><h3>Make it happen</h3><p>I’ll build, share progress, and prepare your project for a confident handover.</p></div></article>
+    <div class="split__text reveal">
+      <span class="eyebrow">Why Choose Us</span>
+      <h2>A Digital Partner You Can Actually Rely On</h2>
+      <p>
+        We don't just build websites — we build long-term digital assets. Our focus is on clean
+        design, solid engineering and measurable results for your business.
+      </p>
+      <ul class="check-list">
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Dedicated project manager for every client</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Pixel-perfect, mobile-first responsive design</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Secure code with best-practice standards</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Affordable packages with no hidden charges</li>
+      </ul>
+      <a href="about.html" class="btn btn--primary">More About Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="section process">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow eyebrow--light">How We Work</span>
+      <h2>Our Simple 4-Step Process</h2>
+      <p>From idea to launch — transparent, collaborative and stress-free.</p>
+    </div>
+
+    <div class="process__grid">
+      <div class="step reveal"><div class="step__num">01</div><h3>Discover</h3><p>We understand your business, goals and audience to shape the right digital strategy.</p></div>
+      <div class="step reveal"><div class="step__num">02</div><h3>Design</h3><p>We craft a clean, modern and brand-focused design that your customers will love.</p></div>
+      <div class="step reveal"><div class="step__num">03</div><h3>Develop</h3><p>Our developers build your site with clean code, fast performance and full responsiveness.</p></div>
+      <div class="step reveal"><div class="step__num">04</div><h3>Deploy &amp; Support</h3><p>We launch, monitor and maintain your website — and stay with you for the long run.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="section testimonials">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Client Feedback</span>
+      <h2>What Our Clients Say</h2>
+      <p>Real results, real relationships — here's what businesses say about working with us.</p>
+    </div>
+
+    <div class="tst-grid">
+      <div class="tst reveal">
+        <div class="tst__stars">★★★★★</div>
+        <p class="tst__text">"AURO INFO TECH built our e-commerce store from scratch. Sales are up and the checkout is incredibly smooth. Highly recommended!"</p>
+        <div class="tst__person">
+          <div class="tst__avatar">RK</div>
+          <div><b>Rahul Krishnan</b><small>Founder, RetailKart</small></div>
         </div>
       </div>
-    </section>
 
-    <section class="faq-section section-pad" id="faq">
-      <div class="container faq-layout">
-        <div class="faq-heading">
-          <div class="section-kicker"><span>FAQ</span><i></i> Before we begin</div>
-          <h2>A few things<br><span>you might wonder.</span></h2>
-          <p>Not sure where to start? A short message is enough to get the conversation going.</p>
-        </div>
-        <div class="faq-list">
-          <details class="faq-item"><summary>What should I include in my first enquiry?</summary><p>A brief description of what you need, what you want it to achieve, and any timing or budget considerations is a useful start. If you have a current website or examples you like, include those too.</p></details>
-          <details class="faq-item"><summary>Can you work on an existing website?</summary><p>Yes. Website maintenance and backend development are available. Share your website address and what you would like to improve so we can see whether it is a good fit.</p></details>
-          <details class="faq-item"><summary>How are project timelines and costs worked out?</summary><p>They depend on the scope and requirements. After we discuss the project, I can suggest a suitable approach before any work begins.</p></details>
-          <details class="faq-item"><summary>How does the enquiry form work?</summary><p>It prepares an email preview for you to review. Open your email app or copy the enquiry into your preferred email service, then send it yourself. This website does not transmit or store form submissions.</p></details>
+      <div class="tst reveal">
+        <div class="tst__stars">★★★★★</div>
+        <p class="tst__text">"Fast, reliable and professional. Our new website loads instantly and looks fantastic on mobile. Amazing support team."</p>
+        <div class="tst__person">
+          <div class="tst__avatar">SP</div>
+          <div><b>Sneha Pillai</b><small>Director, GreenLeaf Interiors</small></div>
         </div>
       </div>
-    </section>
 
-    <section class="contact-section section-pad" id="contact">
-      <div class="container contact-layout">
-        <div class="contact-copy">
-          <div class="section-kicker section-kicker-light"><span>CONTACT</span><i></i> Your next step</div>
-          <h2>Tell me what<br><em>you have in mind.</em></h2>
-          <p>Have a project or a question? Share a few details and let’s work out if I can help.</p>
-          <a class="contact-email" href="mailto:bestresearchsolutions62@gmail.com">bestresearchsolutions62@gmail.com <span aria-hidden="true">↗</span></a>
-          <p class="contact-note">Prefer email? Get in touch directly.</p>
+      <div class="tst reveal">
+        <div class="tst__stars">★★★★★</div>
+        <p class="tst__text">"They handle our hosting and maintenance end to end. Zero downtime and quick responses — exactly what a business needs."</p>
+        <div class="tst__person">
+          <div class="tst__avatar">AM</div>
+          <div><b>Arun Menon</b><small>CEO, TechNova Solutions</small></div>
         </div>
-        <form class="contact-form" id="contact-form" aria-describedby="enquiry-note">
-          <div class="form-heading"><strong>Project enquiry</strong><span>* Required</span></div>
-          <div class="form-row">
-            <label for="contact-name">Your name *</label>
-            <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Jane Smith" required maxlength="100">
-          </div>
-          <div class="form-row form-row-split">
-            <div><label for="contact-email">Email address *</label><input id="contact-email" name="email" type="email" autocomplete="email" placeholder="jane@company.com" required maxlength="254"></div>
-            <div><label for="contact-phone">Phone number</label><input id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="Optional" maxlength="40"></div>
-          </div>
-          <div class="form-row">
-            <label for="contact-service">What can I help with? *</label>
-            <select id="contact-service" name="service" required>
-              <option value="" disabled selected>Select a service</option>
-              <option value="Website Development">Website Development</option>
-              <option value="E-commerce Development">E-commerce Development</option>
-              <option value="PHP Backend Development">PHP Backend Development</option>
-              <option value="Website Maintenance">Website Maintenance</option>
-              <option value="Search Engine Optimization">Search Engine Optimization</option>
-              <option value="Domain and Hosting Assistance">Domain and Hosting Assistance</option>
-              <option value="Something else">Something else</option>
-            </select>
-          </div>
-          <div class="form-row"><label for="contact-message">A little about your project *</label><textarea id="contact-message" name="message" rows="4" placeholder="What are you looking to build or improve?" required maxlength="1800"></textarea></div>
-          <button class="button button-primary form-submit" type="submit" disabled>Prepare enquiry email <span aria-hidden="true">↗</span></button>
-          <p class="form-note" id="enquiry-note">Review your enquiry, then send it using your email app or copy it into webmail. Nothing is sent or stored by this site.</p>
-          <noscript><p class="form-note">This form needs JavaScript to prepare your email. Please email <a href="mailto:bestresearchsolutions62@gmail.com">bestresearchsolutions62@gmail.com</a> directly instead.</p></noscript>
-          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-          <div class="enquiry-preview" id="enquiry-preview" hidden>
-            <h3>Your enquiry is ready to review</h3>
-            <label for="enquiry-text">Email details</label>
-            <textarea id="enquiry-text" rows="9" readonly spellcheck="false" aria-describedby="enquiry-help"></textarea>
-            <div class="enquiry-actions">
-              <a class="button button-primary" id="open-enquiry-email" href="mailto:bestresearchsolutions62@gmail.com">Open email app <span aria-hidden="true">↗</span></a>
-              <button class="button button-secondary" id="copy-enquiry" type="button">Copy enquiry</button>
-            </div>
-            <p class="form-note" id="enquiry-help">Not sent yet. Review and send the email yourself. If no email app opens or details are missing, copy the full enquiry into your email service.</p>
-          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta reveal">
+      <div class="cta__text">
+        <h2>Ready to Build Your Dream Website?</h2>
+        <p>Get a free, no-obligation quote today. Let's turn your idea into a high-performing website.</p>
+      </div>
+      <a href="contact.html" class="btn btn--white">Get a Free Quote</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a href="index.html" class="logo">
+          <span class="logo__mark">A</span>
+          <span class="logo__text">
+            <span class="logo__name">AURO</span>
+            <span class="logo__sub">Info Tech</span>
+          </span>
+        </a>
+        <p>AURO INFO TECH Solutions is a full-service web development company delivering websites, e-commerce stores, hosting and PHP backend solutions that help businesses grow online.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.4 8.65 21 11 21 14.1V21h-4v-6.1c0-1.45-.03-3.3-2-3.3-2 0-2.3 1.57-2.3 3.2V21H9z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Quick Links</h4>
+        <div class="footer__links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="services.html">Services</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Our Services</h4>
+        <div class="footer__links">
+          <a href="services.html#web">Website Development</a>
+          <a href="services.html#ecommerce">E-Commerce Stores</a>
+          <a href="services.html#hosting">Domain &amp; Hosting</a>
+          <a href="services.html#php">PHP Backend</a>
+          <a href="services.html#maintenance">Website Maintenance</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Get in Touch</h4>
+        <div class="footer__links">
+          <a href="tel:+919000000000">+91 90000 00000</a>
+          <a href="mailto:info@auroinfotech.com">info@auroinfotech.com</a>
+          <a href="contact.html">Chennai, Tamil Nadu, India</a>
+        </div>
+        <form class="footer__newsletter">
+          <input type="email" placeholder="Your email" aria-label="Email" required />
+          <button type="submit">Join</button>
         </form>
       </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-main">
-      <a class="brand footer-brand" href="#top" aria-label="AURO INFO TECH home"><img class="brand-logo" src="assets/images/brand/auro-logo.svg" alt="AURO INFO TECH" width="64" height="64"></a>
-      <p class="footer-tagline">Thoughtful digital.<br>Made personal.</p>
-      <div class="footer-links"><a href="#about">About</a><a href="#services">Services</a><a href="#process">How I work</a><a href="#faq">FAQs</a><a href="#contact">Contact</a></div>
-      <a class="footer-top" href="#top">Back to top ↑</a>
     </div>
-    <div class="container footer-bottom"><span>© <span id="year"></span> AURO INFO TECH</span><span>Innovate. Build. Grow.</span></div>
-  </footer>
+
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> AURO INFO TECH Solutions. All rights reserved.</span>
+      <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Service</a></span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Back to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<script src="js/main.js"></script>
 </body>
 </html>
