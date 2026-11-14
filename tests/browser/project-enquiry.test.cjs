@@ -93,6 +93,36 @@ test("Website acceptance checks in a real browser (no messages are sent)", { tim
     await delay(50);
   }
   assert.equal(await evaluate(`document.querySelector('.form-submit').disabled`), false);
+  await t.test("Contact links open Gmail compose, never the default mail app", async () => {
+    const links = await evaluate(`Array.from(document.querySelectorAll('a.contact-email, noscript a'), a=>({href:a.href,target:a.target,rel:a.rel}))`);
+    assert.ok(links.length > 0);
+    for (const link of links) {
+      const url = new URL(link.href);
+      assert.equal(url.hostname, "mail.google.com");
+      assert.equal(url.searchParams.get("to"), "bestresearchsolutions62@gmail.com");
+      assert.equal(link.target, "_blank");
+      assert.match(link.rel, /noopener/);
+    }
+    assert.equal(await evaluate(`document.querySelectorAll('a[href^="mailto:"]').length`), 0);
+  });
+  await t.test("Service filters update visible cards and accessible selected state", async () => {
+    const filter = async (value) => evaluate(`document.querySelector('[data-service-filter="${value}"]').click()`);
+    const visibleServices = () => evaluate(`Array.from(document.querySelectorAll('.service-card:not([hidden]) h3'), heading => heading.textContent)`);
+    assert.equal(await evaluate(`document.querySelectorAll('.service-card:not([hidden])').length`), 6);
+    await filter("web");
+    assert.deepEqual(await visibleServices(), ["Website Development", "E-commerce Development"]);
+    assert.equal(await evaluate(`document.querySelector('[data-service-filter="web"]').getAttribute('aria-pressed')`), "true");
+    assert.match(await evaluate(`document.querySelector('#service-filter-status').textContent`), /Showing 2 services/);
+    await filter("development");
+    assert.deepEqual(await visibleServices(), ["PHP Backend Development"]);
+    await filter("visibility");
+    assert.deepEqual(await visibleServices(), ["Search Engine Optimization"]);
+    await filter("support");
+    assert.deepEqual(await visibleServices(), ["Website Maintenance", "Domain & Hosting"]);
+    await filter("all");
+    assert.equal(await evaluate(`document.querySelectorAll('.service-card:not([hidden])').length`), 6);
+    assert.equal(await evaluate(`document.querySelector('[data-service-filter="all"]').getAttribute('aria-pressed')`), "true");
+  });
   await t.test("Renamed page resources and CSS watermark resolve from the project root", async () => {
     const resources = await evaluate(`Array.from(document.querySelectorAll('img[src], script[src], link[href]'), element => element.getAttribute('src') || element.getAttribute('href')).filter(url => url.startsWith('assets/'))`);
     resources.push("assets/images/brand/auro-logo.jpg");
@@ -119,6 +149,19 @@ test("Website acceptance checks in a real browser (no messages are sent)", { tim
     }
     assert.fail("Website did not initialize.");
   }
+  await t.test("Navigation indicates the visible section and clears at the top", async () => {
+    await resize(1440);
+    await command("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
+    for (const id of ["about", "services", "process", "faq", "contact"]) {
+      await evaluate(`window.scrollTo(0, document.querySelector('#${id}').offsetTop - 90)`);
+      await delay(80);
+      assert.equal(await evaluate(`document.querySelector('#nav-links [aria-current="location"]')?.getAttribute('href')`), `#${id}`);
+      assert.equal(await evaluate(`document.querySelectorAll('#nav-links [aria-current="location"]').length`), 1);
+    }
+    await evaluate(`window.scrollTo(0, 0)`);
+    await delay(80);
+    assert.equal(await evaluate(`document.querySelector('#nav-links [aria-current="location"]')`), null);
+  });
   await t.test("Mobile menu, Escape, resize, and theme switching preserve accessible focus", async () => {
     await resize(375, 500);
     await evaluate(`document.querySelector('.menu-toggle').click()`);
@@ -149,10 +192,89 @@ test("Website acceptance checks in a real browser (no messages are sent)", { tim
     await command("Input.dispatchMouseEvent", { type: "mouseMoved", x: 0, y: 0 });
   });
 
+  await t.test("Service cards align and contact fields show the accent focus outline", async () => {
+    await resize(1440);
+    const layout = await evaluate(`(() => {
+      const cards=Array.from(document.querySelectorAll('.service-card')).slice(0,3);
+      const bottoms=cards.map(card=>card.querySelector('a').getBoundingClientRect().bottom);
+      return {
+        heights:cards.map(card=>card.getBoundingClientRect().height),
+        linkBottoms:bottoms,
+        cardDisplay:getComputedStyle(cards[0]).display,
+        heroNote:document.querySelector('.hero-note').textContent
+      };
+    })()`);
+    assert.ok(Math.max(...layout.heights)-Math.min(...layout.heights) < 1);
+    assert.ok(Math.max(...layout.linkBottoms)-Math.min(...layout.linkBottoms) < 1);
+    assert.equal(layout.cardDisplay, "flex");
+    assert.match(layout.heroNote, /Websites built around your business/);
+    const focusStyle = await evaluate(`(() => {
+      const field=document.querySelector('#contact-name');
+      field.focus();
+      const style=getComputedStyle(field);
+      return {outlineStyle:style.outlineStyle,outlineWidth:style.outlineWidth,outlineColor:style.outlineColor};
+    })()`);
+    assert.deepEqual(focusStyle, { outlineStyle: "solid", outlineWidth: "3px", outlineColor: "rgb(105, 186, 255)" });
+  });
+
+  await t.test("Scroll reveals rise in a stagger and respect reduced motion", async () => {
+    await command("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "no-preference" }] });
+    await evaluate(`window.qaReloadPending=true`);
+    await command("Page.reload");
+    await ready();
+    await evaluate(`(() => {
+      window.qaReveals=[];
+      const animate=Element.prototype.animate;
+      window.qaOriginalAnimate=animate;
+      Element.prototype.animate=function(keyframes, options) {
+        window.qaReveals.push({className:this.className, keyframes, delay:options.delay});
+        return animate.call(this,keyframes,options);
+      };
+      document.querySelector('.services-section').scrollIntoView();
+    })()`);
+    for (let attempt = 0; attempt < 20; attempt++) {
+      if (await evaluate(`window.qaReveals.filter(item=>item.className==='service-card').length`) >= 3) break;
+      await delay(25);
+    }
+    const reveals = await evaluate(`window.qaReveals.filter(item=>item.className==='service-card')`);
+    assert.equal(reveals.length, 3);
+    assert.deepEqual(reveals.map(item => item.delay), [0, 90, 180]);
+    assert.ok(reveals.every(item => item.keyframes[0].transform === "translateY(18px)" && item.keyframes[1].transform === "translateY(0)"));
+    assert.match(await evaluate(`getComputedStyle(document.querySelector('.service-card')).transitionProperty`), /border-color/);
+    await evaluate(`Element.prototype.animate=window.qaOriginalAnimate; window.qaReveals=[]`);
+
+    await command("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
+    await evaluate(`window.qaReloadPending=true`);
+    await command("Page.reload");
+    await ready();
+    await evaluate(`document.querySelector('.services-section').scrollIntoView()`);
+    await delay(100);
+    assert.equal(await evaluate(`Array.from(document.querySelectorAll('.service-card')).some(card=>card.getAnimations().length)`), false);
+  });
+
+  await t.test("Project message counter updates, warns near the limit, and resets", async () => {
+    assert.equal(await evaluate(`document.querySelector('#message-count').textContent`), "0 / 1800");
+    await fill("message", "a".repeat(1620));
+    assert.equal(await evaluate(`document.querySelector('#message-count').textContent`), "1620 / 1800");
+    assert.equal(await evaluate(`document.querySelector('#message-count').classList.contains('is-near-limit')`), true);
+    await evaluate(`document.querySelector('#contact-form').reset()`);
+    await delay(0);
+    assert.equal(await evaluate(`document.querySelector('#message-count').textContent`), "0 / 1800");
+    assert.equal(await evaluate(`document.querySelector('#message-count').classList.contains('is-near-limit')`), false);
+  });
+
   await t.test("Empty, whitespace-only, invalid email, and overlength values are rejected", async () => {
+    await evaluate(`(() => {
+      window.qaMailtoLinks = [];
+      const click = HTMLAnchorElement.prototype.click;
+      HTMLAnchorElement.prototype.click = function() {
+        if (this.hostname === 'mail.google.com') window.qaMailtoLinks.push(this.href);
+        else click.call(this);
+      };
+    })()`);
     await submit();
     assert.match(await status(), /correct the highlighted/);
-    assert.equal(await evaluate(`document.querySelector('#enquiry-preview').hidden`), true);
+    assert.equal(await evaluate(`window.qaMailtoLinks.length`), 0);
     await fill("name", "   ");
     await fill("email", "not-an-email");
     await fill("service", "Website Development");
@@ -166,6 +288,7 @@ test("Website acceptance checks in a real browser (no messages are sent)", { tim
     await fill("message", "a".repeat(1801));
     await submit();
     assert.equal(await evaluate(`${field("message")}.validity.valid`), false);
+    assert.equal(await evaluate(`window.qaMailtoLinks.length`), 0);
   });
   await t.test("Changing a previously invalid service clears its validation error", async () => {
     await fill("service", "");
@@ -175,47 +298,52 @@ test("Website acceptance checks in a real browser (no messages are sent)", { tim
     assert.equal(await evaluate(`${field("service")}.validity.valid`), true);
     assert.equal(await evaluate(`${field("service")}.hasAttribute('aria-invalid')`), false);
   });
-  await t.test("Valid enquiry is trimmed, encoded, previewed, and not automatically sent", async () => {
+  await t.test("Valid enquiry opens a prefilled email without a review step", async () => {
     await fill("name", "  Jane & Co  ");
     await fill("email", "jane@example.com");
     await fill("phone", "   ");
+    assert.equal(await evaluate(`document.querySelector('#contact-budget')`), null);
+    await fill("timeline", "Within 1–3 months");
     await fill("message", "  Build a site: A&B + 50%? #launch\nUnicode: \u00e9 \u2713  ");
     await submit();
-    assert.equal(await evaluate(`document.querySelector('#enquiry-preview').hidden`), false);
-    assert.equal(await evaluate(`document.activeElement.id`), "enquiry-text");
-    const href = await evaluate(`document.querySelector('#open-enquiry-email').href`);
+    assert.equal(await evaluate(`document.querySelector('#enquiry-preview')`), null);
+    assert.equal(await evaluate(`window.qaMailtoLinks.length`), 1);
+    const href = await evaluate(`window.qaMailtoLinks[0]`);
     const url = new URL(href);
-    assert.equal(url.protocol, "mailto:");
-    assert.equal(url.pathname, "bestresearchsolutions62@gmail.com");
-    assert.equal(url.searchParams.get("subject"), "Project enquiry: Website Development");
+    assert.equal(url.protocol, "https:");
+    assert.equal(url.hostname, "mail.google.com");
+    assert.equal(url.searchParams.get("view"), "cm");
+    assert.equal(url.searchParams.get("to"), "bestresearchsolutions62@gmail.com");
+    assert.equal(url.searchParams.get("su"), "Project enquiry: Website Development");
     assert.match(url.searchParams.get("body"), /Name: Jane & Co\r\n/);
-    assert.match(url.searchParams.get("body"), /Phone: Not provided/);
+    assert.doesNotMatch(url.searchParams.get("body"), /Phone:/);
+    assert.doesNotMatch(url.searchParams.get("body"), /Budget:/);
+    assert.match(url.searchParams.get("body"), /Preferred timeline: Within 1–3 months/);
+    assert.ok(url.searchParams.get("body").startsWith("Dear AURO INFO TECH Team,\r\n"));
+    assert.match(url.searchParams.get("body"), /PROJECT REQUIREMENTS\r\n/);
+    assert.doesNotMatch(url.searchParams.get("body"), /NEXT STEPS|---/);
+    assert.match(url.searchParams.get("body"), /estimated cost, and expected timeline/);
+    assert.ok(url.searchParams.get("body").endsWith("Kind regards,\r\nJane & Co"));
     assert.ok(url.searchParams.get("body").includes("A&B + 50%? #launch\nUnicode: \u00e9 \u2713"));
-    assert.match(await status(), /not sent/);
+    assert.match(await status(), /not been sent/);
   });
-  await t.test("Copy succeeds or offers manual selection when clipboard is missing or denied", async () => {
-    await evaluate(`Object.defineProperty(navigator, 'clipboard', {configurable:true, value:{writeText:async text => {window.copiedEnquiry=text;}}}); document.querySelector('#copy-enquiry').click();`);
-    assert.match(await status(), /Enquiry copied/);
-    assert.equal(await evaluate(`window.copiedEnquiry`), await evaluate(`document.querySelector('#enquiry-text').value`));
-    for (const clipboard of ["undefined", "{writeText:async () => {throw new Error('Permission denied');}}"]) {
-      await evaluate(`Object.defineProperty(navigator, 'clipboard', {configurable:true, value:${clipboard}}); document.querySelector('#copy-enquiry').click();`);
-      assert.match(await status(), /Copy is unavailable/);
-      assert.equal(await evaluate(`document.querySelector('#enquiry-text').selectionStart`), 0);
-      assert.equal(await evaluate(`document.querySelector('#enquiry-text').selectionEnd === document.querySelector('#enquiry-text').value.length`), true);
-    }
-  });
-  await t.test("Edits, service shortcuts, and reset invalidate stale previews", async () => {
-    await fill("message", "Updated project");
-    assert.equal(await evaluate(`document.querySelector('#enquiry-preview').hidden`), true);
-    assert.equal(await evaluate(`document.querySelector('#open-enquiry-email').hasAttribute('href')`), false);
+  await t.test("Provided optional contact details are included", async () => {
+    await fill("phone", "  +1 555 0100  ");
     await submit();
+    assert.match(new URL(await evaluate(`window.qaMailtoLinks.at(-1)`)).searchParams.get("body"), /Phone: \+1 555 0100\r\n/);
+  });
+  await t.test("Edits and service shortcuts are reflected in subsequent emails", async () => {
+    await fill("message", "Updated project");
+    assert.equal(await status(), "");
+    await submit();
+    assert.ok(new URL(await evaluate(`window.qaMailtoLinks.at(-1)`)).searchParams.get("body").includes("Updated project"));
     await evaluate(`document.querySelector('[data-service="Website Maintenance"]').click()`);
     assert.equal(await evaluate(`${field("service")}.value`), "Website Maintenance");
-    assert.equal(await evaluate(`document.querySelector('#enquiry-preview').hidden`), true);
+    assert.equal(await status(), "");
     await submit();
+    assert.equal(new URL(await evaluate(`window.qaMailtoLinks.at(-1)`)).searchParams.get("su"), "Project enquiry: Website Maintenance");
     await evaluate(`document.querySelector('#contact-form').reset()`);
-    assert.equal(await evaluate(`document.querySelector('#enquiry-preview').hidden`), true);
-    assert.equal(await evaluate(`document.querySelector('#enquiry-text').value`), "");
+    assert.equal(await status(), "");
   });
   await t.test("Every service shortcut selects its matching enquiry option", async () => {
     const services = await evaluate(`Array.from(document.querySelectorAll('[data-service]'), link => link.dataset.service)`);
@@ -234,10 +362,10 @@ test("Website acceptance checks in a real browser (no messages are sent)", { tim
     await fill("email", "jane@example.com");
     await fill("message", message);
     await submit();
-    assert.equal(await evaluate(`document.querySelector('#enquiry-preview').hidden`), false);
-    const href = await evaluate(`document.querySelector('#open-enquiry-email').href`);
-    assert.ok(new URL(href).searchParams.get("body").endsWith(message));
-    assert.equal(await evaluate(`document.querySelector('#enquiry-preview img')`), null);
+    const href = await evaluate(`window.qaMailtoLinks.at(-1)`);
+    assert.doesNotMatch(new URL(href).searchParams.get("body"), /Preferred timeline:|Phone:|Not provided|Flexible \/ to be discussed/);
+    assert.ok(new URL(href).searchParams.get("body").includes(`PROJECT REQUIREMENTS\r\n${message}\r\n`));
+    assert.equal(await evaluate(`document.querySelector('#contact-form img')`), null);
   });
   await t.test("Distinct light and dark palettes keep decorative shapes behind responsive content", async () => {
     for (const width of [320, 375, 820, 1000, 1440]) {
@@ -272,7 +400,7 @@ test("Website acceptance checks in a real browser (no messages are sent)", { tim
         assert.equal(colors.text, expectedText);
         assert.equal(colors.scheme, theme);
         assert.deepEqual(colors.sectionText, [expectedText, expectedText, expectedText]);
-        assert.equal(colors.surface, theme === "dark" ? "rgb(16, 23, 34)" : "rgb(255, 255, 255)");
+        assert.equal(colors.surface, theme === "dark" ? "rgb(21, 31, 45)" : "rgb(255, 255, 255)");
         assert.equal(colors.metadata, theme === "dark" ? "#080c14" : "#f4f8ff");
         assert.equal(colors.decorationPointerEvents, "none");
         assert.equal(colors.decorationFilter, "blur(55px)");
@@ -367,6 +495,8 @@ test("Website acceptance checks in a real browser (no messages are sent)", { tim
     await command("Page.reload");
     await delay(500);
     assert.equal(await evaluate(`document.querySelector('.form-submit').disabled`), true);
+    assert.equal(await evaluate(`Array.from(document.querySelectorAll('[data-service-filter]')).every(button=>getComputedStyle(button).display === 'none')`), true);
+    assert.equal(await evaluate(`Array.from(document.querySelectorAll('.service-card')).every(card=>getComputedStyle(card).display !== 'none')`), true);
     assert.match(await evaluate(`document.querySelector('noscript').innerText`), /email.*directly/s);
     assert.notEqual(await evaluate(`getComputedStyle(document.querySelector('#nav-links')).display`), "none");
   });

@@ -57,6 +57,37 @@ navigation?.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", closeMenu);
 });
 
+const sectionLinks = Array.from(navigation?.querySelectorAll('a[href^="#"]') || []);
+const linkedSections = sectionLinks.map((link) => ({
+  link,
+  section: document.getElementById(link.hash.slice(1))
+})).filter(({ section }) => section);
+let sectionUpdatePending = false;
+function updateCurrentSection() {
+  const marker = (document.querySelector(".site-header")?.getBoundingClientRect().height || 0) + 24;
+  let current = null;
+  linkedSections.forEach(({ link, section }) => {
+    if (section.getBoundingClientRect().top <= marker) current = link;
+  });
+  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2 && linkedSections.length) {
+    current = linkedSections[linkedSections.length - 1].link;
+  }
+  sectionLinks.forEach((link) => {
+    if (link === current) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
+  });
+  sectionUpdatePending = false;
+}
+function scheduleSectionUpdate() {
+  if (!sectionUpdatePending) {
+    sectionUpdatePending = true;
+    window.requestAnimationFrame(updateCurrentSection);
+  }
+}
+window.addEventListener("scroll", scheduleSectionUpdate, { passive: true });
+window.addEventListener("resize", scheduleSectionUpdate);
+scheduleSectionUpdate();
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && menuButton?.getAttribute("aria-expanded") === "true") {
     closeMenu();
@@ -77,21 +108,50 @@ if (desktopNavigation.addEventListener) {
 const year = document.querySelector("#year");
 if (year) year.textContent = String(new Date().getFullYear());
 
+const serviceFilterButtons = document.querySelectorAll("[data-service-filter]");
+const serviceCards = document.querySelectorAll(".service-card[data-service-category]");
+const serviceFilterStatus = document.querySelector("#service-filter-status");
+if (serviceFilterButtons.length && serviceCards.length && serviceFilterStatus) {
+  let selectedFilter = "all";
+  function updateServices() {
+    let visibleCount = 0;
+    serviceFilterButtons.forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.serviceFilter === selectedFilter));
+    });
+    serviceCards.forEach((card) => {
+      card.hidden = selectedFilter !== "all" && card.dataset.serviceCategory !== selectedFilter;
+      if (!card.hidden) visibleCount++;
+    });
+    const selectedButton = Array.from(serviceFilterButtons).find((button) => button.dataset.serviceFilter === selectedFilter);
+    const category = selectedFilter === "all" ? "" : ` for ${selectedButton.textContent.trim()}`;
+    serviceFilterStatus.textContent = `Showing ${visibleCount} ${visibleCount === 1 ? "service" : "services"}${category}.`;
+    scheduleSectionUpdate();
+  }
+  serviceFilterButtons.forEach((button) => {
+    button.hidden = false;
+    button.addEventListener("click", () => {
+      selectedFilter = button.dataset.serviceFilter;
+      updateServices();
+    });
+  });
+  updateServices();
+}
+
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 if ("IntersectionObserver" in window && typeof Element.prototype.animate === "function" && !reducedMotion.matches) {
   const entranceAnimations = new Set();
-  const entranceDirections = new WeakMap();
+  const entranceDelays = new WeakMap();
   const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       observer.unobserve(entry.target);
       if (reducedMotion.matches) return;
-      const offset = entranceDirections.get(entry.target) * Math.min(32, window.innerWidth * .04);
       const animation = entry.target.animate([
-        { opacity: 0, transform: `translateX(${offset}px)` },
-        { opacity: 1, transform: "translateX(0)" }
+        { opacity: 0, transform: "translateY(18px)" },
+        { opacity: 1, transform: "translateY(0)" }
       ], {
-        duration: 650,
+        duration: 550,
+        delay: entranceDelays.get(entry.target) || 0,
         easing: "cubic-bezier(.2, .7, .3, 1)"
       });
       entranceAnimations.add(animation);
@@ -101,8 +161,12 @@ if ("IntersectionObserver" in window && typeof Element.prototype.animate === "fu
 
   document.querySelectorAll(
     ".about-copy, .section-heading, .service-card, .process-intro, .process-steps article, .faq-heading, .faq-item, .contact-copy, .contact-form"
-  ).forEach((target, index) => {
-    entranceDirections.set(target, index % 2 === 0 ? -1 : 1);
+  ).forEach((target) => {
+    if (target.matches(".service-card")) {
+      const cards = Array.from(target.parentElement.children);
+      const columns = getComputedStyle(target.parentElement).gridTemplateColumns.trim().split(/\s+/).length;
+      entranceDelays.set(target, (cards.indexOf(target) % columns) * 90);
+    }
     revealObserver.observe(target);
   });
 
@@ -131,27 +195,26 @@ document.querySelectorAll(".service-card a[data-service]").forEach((link) => {
 
 const contactForm = document.querySelector("#contact-form");
 const formStatus = document.querySelector("#form-status");
-const enquiryPreview = document.querySelector("#enquiry-preview");
-const enquiryText = document.querySelector("#enquiry-text");
-const openEnquiryEmail = document.querySelector("#open-enquiry-email");
-const copyEnquiry = document.querySelector("#copy-enquiry");
+const messageField = document.querySelector('#contact-form textarea[name="message"]');
+const messageCount = document.querySelector("#message-count");
 
-if (contactForm && enquiryPreview && enquiryText && openEnquiryEmail && copyEnquiry && formStatus) {
+if (contactForm && formStatus && messageField && messageCount) {
   contactForm.noValidate = true;
   const enquiryFields = contactForm.querySelectorAll("input, select, textarea:not([readonly])");
 
-  function invalidateEnquiry() {
-    enquiryPreview.hidden = true;
-    enquiryText.value = "";
-    openEnquiryEmail.removeAttribute("href");
-    formStatus.textContent = "";
+  function updateMessageCount() {
+    const count = messageField.value.length;
+    messageCount.textContent = `${count} / ${messageField.maxLength}`;
+    messageCount.classList.toggle("is-near-limit", count >= messageField.maxLength * 0.9);
   }
+  updateMessageCount();
+  messageField.addEventListener("input", updateMessageCount);
 
   enquiryFields.forEach((field) => {
     const clearFieldError = () => {
       field.setCustomValidity("");
       field.removeAttribute("aria-invalid");
-      invalidateEnquiry();
+      formStatus.textContent = "";
     };
     field.addEventListener("input", clearFieldError);
     field.addEventListener("change", clearFieldError);
@@ -162,12 +225,13 @@ if (contactForm && enquiryPreview && enquiryText && openEnquiryEmail && copyEnqu
       field.setCustomValidity("");
       field.removeAttribute("aria-invalid");
     });
-    invalidateEnquiry();
+    formStatus.textContent = "";
+    window.setTimeout(updateMessageCount, 0);
   });
 
   contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    invalidateEnquiry();
+    formStatus.textContent = "";
     enquiryFields.forEach((field) => {
       field.value = field.value.trim();
       field.setCustomValidity("");
@@ -178,6 +242,7 @@ if (contactForm && enquiryPreview && enquiryText && openEnquiryEmail && copyEnqu
       }
       field.setAttribute("aria-invalid", String(!field.validity.valid));
     });
+    updateMessageCount();
     if (!contactForm.checkValidity()) {
       formStatus.textContent = "Please correct the highlighted fields before preparing your enquiry.";
       contactForm.reportValidity();
@@ -188,46 +253,33 @@ if (contactForm && enquiryPreview && enquiryText && openEnquiryEmail && copyEnqu
     const subject = `Project enquiry: ${formData.get("service")}`;
     const recipient = "bestresearchsolutions62@gmail.com";
     const body = [
+      "Dear AURO INFO TECH Team,",
+      "",
+      `I would like to enquire about your ${formData.get("service")} service. Please find my project requirements and contact details below.`,
+      "",
+      "PROJECT REQUIREMENTS",
+      String(formData.get("message")),
+      "",
+      ...(formData.get("timeline") ? [`Preferred timeline: ${formData.get("timeline")}`, ""] : []),
+      "CONTACT DETAILS",
       `Name: ${formData.get("name")}`,
       `Email: ${formData.get("email")}`,
-      `Phone: ${formData.get("phone") || "Not provided"}`,
-      `Service: ${formData.get("service")}`,
+      ...(formData.get("phone") ? [`Phone: ${formData.get("phone")}`] : []),
       "",
-      "Project details:",
-      String(formData.get("message"))
+      "Please let me know whether you can assist with this project, along with the proposed approach, estimated cost, and expected timeline. I would be happy to discuss any additional information you need.",
+      "",
+      "Thank you for your time. I look forward to hearing from you.",
+      "",
+      "Kind regards,",
+      String(formData.get("name"))
     ].join("\r\n");
 
-    enquiryText.value = `To: ${recipient}\r\nSubject: ${subject}\r\n\r\n${body}`;
-    openEnquiryEmail.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    enquiryPreview.hidden = false;
-    formStatus.textContent = "Enquiry prepared, not sent. Review the details below and choose how to send it.";
-    enquiryText.focus();
-  });
-
-  copyEnquiry.addEventListener("click", async () => {
-    const text = enquiryText.value;
-    if (!text || enquiryPreview.hidden) return;
-
-    function selectForManualCopy() {
-      enquiryText.focus();
-      enquiryText.select();
-      formStatus.textContent = "Copy is unavailable. The enquiry is selected; use your device's Copy command, then paste it into your email service.";
-    }
-
-    if (!navigator.clipboard?.writeText) {
-      selectForManualCopy();
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch (error) {
-      console.warn("Unable to copy the enquiry to the clipboard.", error);
-      if (enquiryText.value === text && !enquiryPreview.hidden) selectForManualCopy();
-      return;
-    }
-    if (enquiryText.value === text && !enquiryPreview.hidden) {
-      formStatus.textContent = "Enquiry copied. Paste it into your email service and send it to the address shown. Nothing has been sent yet.";
-    }
+    const emailLink = document.createElement("a");
+    emailLink.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    emailLink.target = "_blank";
+    emailLink.rel = "noopener noreferrer";
+    formStatus.textContent = "Your enquiry has not been sent. Sign in to Gmail if needed and send it yourself. If no tab opens, allow pop-ups or use the Gmail link above.";
+    emailLink.click();
   });
   contactForm.querySelector('button[type="submit"]').disabled = false;
 }

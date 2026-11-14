@@ -18,10 +18,14 @@ This repository contains the source code and documentation for the official **Au
 - One-page sections for the freelance approach, services, and project process.
 - FAQ accordion for common project enquiries.
 - Persistent light/dark theme toggle with pale blue/white light mode and blue/black dark mode.
-- Alternating left/right scroll entrances, opposing hero entrances, and preview float effects that respect reduced-motion preferences.
+- Upward scroll reveals, opposing hero entrances, and preview float effects that respect reduced-motion preferences.
 - Short animated logo intro that fades away automatically and is skipped for reduced motion or keyboard navigation.
 - Service links preselect the matching option in the contact form.
-- Contact form validates required fields and prepares a reviewable email with email-app and copy-to-webmail options; it does not submit to a server.
+- Service category filters help visitors explore offerings; all services remain visible without JavaScript.
+- Navigation highlights the current section while scrolling.
+- Contact form validates required fields and opens Gmail's compose page in a new tab; the user sends the email, and the site does not send or store enquiries.
+- Enquiry emails include a professional greeting, project requirements, contact details, a request for next steps, and a personalized signature.
+- Gmail compose links use plain-text section headings and spacing; empty optional phone and timeline fields are omitted.
 - Basic SEO metadata and accessible navigation.
 - Service and solution showcase pages.
 - About Us and Company Profile section.
